@@ -20,13 +20,24 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("email")) {
       setEmail(localStorage.getItem("email"));
+    } else {
+      setEmail("test@test.com");
     }
+
     if (localStorage.getItem("license")) {
       setLicense(localStorage.getItem("license"));
+    } else {
+      setLicense(
+        "ttmmubertlicense#f0acYBenRcfeFpNT4wpYGaTQIyDI4mJGv5MfIhBFz97NXDwDNFHmMRsBSzmGsJwbTpP1A6i07AXcIeAHo5"
+      );
     }
+
     if (localStorage.getItem("token")) {
       setToken(localStorage.getItem("token"));
+    } else {
+      setToken("4951f6428e83172a4f39de05d5b3ab10d58560b8");
     }
+
     if (localStorage.getItem("hfKey")) {
       setHfKey(localStorage.getItem("hfKey"));
     }
