@@ -1,5 +1,4 @@
 import axios from "axios";
-import ReactAudioPlayer from "react-audio-player";
 
 export default function MusicPlayer(props) {
   const download = async () => {
@@ -18,7 +17,7 @@ export default function MusicPlayer(props) {
 
   return (
     <div>
-      <ReactAudioPlayer src={props.filename} autoPlay controls />
+      <audio src={props.filename} controls />
       <br />
       <br />
       <button onClick={download}>Download</button>
