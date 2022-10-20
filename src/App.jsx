@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import MusicPlayer from "./MusicPlayer";
 import axios from "axios";
@@ -16,6 +16,34 @@ function App() {
   const [loop, setLoop] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [filename, setFilename] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("email")) {
+      setEmail(localStorage.getItem("email"));
+    }
+    if (localStorage.getItem("license")) {
+      setLicense(localStorage.getItem("license"));
+    }
+    if (localStorage.getItem("token")) {
+      setToken(localStorage.getItem("token"));
+    }
+    if (localStorage.getItem("hfKey")) {
+      setHfKey(localStorage.getItem("hfKey"));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("email", email);
+  }, [email]);
+  useEffect(() => {
+    localStorage.setItem("license", license);
+  }, [license]);
+  useEffect(() => {
+    localStorage.setItem("token", token);
+  }, [token]);
+  useEffect(() => {
+    localStorage.setItem("hfKey", hfKey);
+  }, [hfKey]);
 
   const getUserKey = async () => {
     if (!email || !license || !token) {
