@@ -44,7 +44,7 @@ export default function Musika(props) {
             const data = JSON.parse(text);
             if (data.status === "finished") {
               clearInterval(_interval);
-              setGenerating(false);
+              props.setGenerating(false);
             } else {
             }
           } else {
