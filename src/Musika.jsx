@@ -2,7 +2,12 @@ import { useState } from "react";
 import "./App.css";
 import axios from "axios";
 import Slider from "react-input-slider";
-import { API_URL, DURATIONS, getIndexFromDuration } from "./constants";
+import {
+  API_URL,
+  API_URL_RESULT,
+  DURATIONS,
+  getIndexFromDuration,
+} from "./constants";
 
 export default function Musika(props) {
   const [duration, setDuration] = useState(DURATIONS[0]);
@@ -15,7 +20,7 @@ export default function Musika(props) {
 
     props.setGenerating(true);
     try {
-      const resp = await axios.get(API_URL + "generate", {
+      const resp = await axios.get(API_URL, {
         params: {
           duration:
             typeof duration === "string"
@@ -27,7 +32,7 @@ export default function Musika(props) {
       const query_id = resp.data.id;
       const _interval = setInterval(async () => {
         try {
-          const resp = await axios.get(API_URL + "generate_result", {
+          const resp = await axios.get(API_URL_RESULT, {
             params: {
               query_id: query_id,
             },
