@@ -7,6 +7,7 @@ import {
   API_URL_RESULT,
   DURATIONS,
   getIndexFromDuration,
+  SERVER_URL,
 } from "./constants";
 
 export default function Musika(props) {
@@ -33,7 +34,7 @@ export default function Musika(props) {
         },
       });
       const query_id = resp.data.id;
-      console.log(query_id)
+      console.log(query_id);
       const _interval = setInterval(async () => {
         try {
           const resp = await axios.get(API_URL_RESULT, {
@@ -43,33 +44,30 @@ export default function Musika(props) {
             params: {
               query_id: query_id,
             },
-            responseType: "blob",
           });
 
-          if (resp.data.type === "application/json") {
-            const text = await resp.data.text();
-            const data = JSON.parse(text);
+          if (resp.data.filename) {
+            props.setFilename(
+              SERVER_URL + resp.data.filename.substring(1)
+            );
+            clearInterval(_interval);
+            props.setGenerating(false);
+          } else {
             if (data.status === "finished") {
               clearInterval(_interval);
               props.setGenerating(false);
-            } else {
             }
-          } else {
-            clearInterval(_interval);
-            const url = URL.createObjectURL(resp.data);
-            props.setFilename(url);
-            props.setGenerating(false);
           }
         } catch (e) {
           console.log(e);
           console.log("not finished");
+          props.setGenerating(false);
         }
       }, 2500);
     } catch (e) {
       console.log(e);
+      props.setGenerating(false);
     }
-
-    props.setGenerating(false);
   };
 
   return (
