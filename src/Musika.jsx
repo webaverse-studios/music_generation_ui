@@ -33,6 +33,7 @@ export default function Musika(props) {
         },
       });
       const query_id = resp.data.id;
+      console.log(query_id)
       const _interval = setInterval(async () => {
         try {
           const resp = await axios.get(API_URL_RESULT, {
