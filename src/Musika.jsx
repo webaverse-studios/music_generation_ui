@@ -21,6 +21,9 @@ export default function Musika(props) {
     props.setGenerating(true);
     try {
       const resp = await axios.get(API_URL, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
         params: {
           duration:
             typeof duration === "string"
@@ -33,6 +36,9 @@ export default function Musika(props) {
       const _interval = setInterval(async () => {
         try {
           const resp = await axios.get(API_URL_RESULT, {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
             params: {
               query_id: query_id,
             },
