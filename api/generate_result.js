@@ -44,7 +44,7 @@ const handler = async (req, res) => {
       responseType: "blob",
     })
     .then((response) => {
-      console.log("sending response");
+      console.log("sending response", response.data);
       res.send(response.data);
     })
     .catch((error) => {
