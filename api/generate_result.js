@@ -41,7 +41,6 @@ const handler = async (req, res) => {
     .get("http://216.153.50.75:7777/generate_result", {
       params: { query_id },
       headers: { "Access-Control-Allow-Origin": "*" },
-      responseType: "blob",
     })
     .then((response) => {
       console.log("sending response", response.data);
