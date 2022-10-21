@@ -32,7 +32,7 @@ function App() {
       )}
       <br />
       <br />
-      {filename && <MusicPlayer filename={filename} />}
+      {filename && <MusicPlayer filename={filename} isWav={menu == "musika"} />}
     </div>
   );
 }

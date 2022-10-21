@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Blob} from 'node:buffer';
 
 export const config = {
   api: {
@@ -41,9 +42,11 @@ const handler = async (req, res) => {
     .get("http://216.153.50.75:7777/generate_result", {
       params: { query_id },
       headers: { "Access-Control-Allow-Origin": "*" },
+      responseType: "arraybuffer",
     })
     .then((response) => {
-      res.send(response.data);
+      console.log('sending response')
+        res.send(response.data)
     })
     .catch((error) => {
       console.log(error);

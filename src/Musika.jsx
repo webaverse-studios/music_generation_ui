@@ -7,12 +7,20 @@ import {
   API_URL_RESULT,
   DURATIONS,
   getIndexFromDuration,
-  SERVER_URL,
 } from "./constants";
 
 export default function Musika(props) {
   const [duration, setDuration] = useState(DURATIONS[0]);
   const [styleVariation, setStyleVariation] = useState(2);
+
+  const isJSON = (str) => {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  };
 
   const send = async () => {
     if (props.generating) {
@@ -34,7 +42,7 @@ export default function Musika(props) {
         },
       });
       const query_id = resp.data.id;
-      console.log(query_id);
+      let count = 0;
       const _interval = setInterval(async () => {
         try {
           const resp = await axios.get(API_URL_RESULT, {
@@ -44,23 +52,27 @@ export default function Musika(props) {
             params: {
               query_id: query_id,
             },
+            responseType: "arraybuffer",
           });
 
-          if (resp.data.filename) {
-            props.setFilename(
-              SERVER_URL + resp.data.filename.substring(1)
-            );
+          const bytes = resp.data;
+          const arrayBufferView = new Uint8Array(bytes);
+          if (arrayBufferView.length > 21) {
             clearInterval(_interval);
             props.setGenerating(false);
+            const blob = new Blob([arrayBufferView], { type: "audio/wav" });
+            const url = URL.createObjectURL(blob);
+            props.setFilename(url);
+            props.setGenerating(false);
           } else {
-            if (data.status === "finished") {
+            count++;
+            if (count > 20) {
               clearInterval(_interval);
               props.setGenerating(false);
             }
           }
         } catch (e) {
           console.log(e);
-          console.log("not finished");
           props.setGenerating(false);
         }
       }, 2500);

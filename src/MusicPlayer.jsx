@@ -6,7 +6,7 @@ export default function MusicPlayer(props) {
     const url = window.URL.createObjectURL(new Blob([resp.data]));
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `output.mp3`);
+    link.setAttribute("download", `output.${props.isWav ? "wav" : "mp3"}`);
 
     document.body.appendChild(link);
 
