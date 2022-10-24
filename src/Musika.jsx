@@ -42,7 +42,6 @@ export default function Musika(props) {
         },
       });
       const query_id = resp.data.id;
-      let count = 0;
       const _interval = setInterval(async () => {
         try {
           const resp = await axios.get(API_URL_RESULT, {
@@ -65,10 +64,14 @@ export default function Musika(props) {
             props.setFilename(url);
             props.setGenerating(false);
           } else {
-            count++;
-            if (count > 20) {
+            const blob = new Blob([arrayBufferView], {
+              type: "application/json",
+            });
+            const text = await blob.text();
+            const j = JSON.parse(text);
+            if (j.status === "finished") {
               clearInterval(_interval);
-              props.setGenerating(false);
+              setGenerating(false);
             }
           }
         } catch (e) {
